@@ -1,0 +1,64 @@
+/* General rules */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.ms-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 75%;
+    margin: 0 auto;
+}
+
+h2 {
+    width: 100%;
+    text-align: center;
+    color: #323232;
+}
+
+/* Header */
+header {
+    display: flex;
+    width: 100%;
+    /* debug */
+    height: 100px;
+    background-color: red;
+}
+
+/* Main */
+main {
+    width: 100%;
+    height: calc(100vh - 162px);
+    padding: 40px 0;
+    overflow: auto;
+}
+
+#container_first_file, #container_second_file {
+    display: flex;
+    flex-wrap: wrap;
+    width: calc(100% / 2 - 100px);
+    padding: 0 65px;
+    margin: 50px 0 20px;
+}
+
+.ms-input-group {
+    max-height: 38px;
+}
+
+/* Footer */
+footer {
+    width: 100%;
+    height: auto;
+    padding: 20px 0;
+    border-top: solid 1px #e3e3e3;
+    background-color: #edecec;
+}
+
+footer > div span {
+    font-size: 14px;
+    letter-spacing: 1px;
+    color: rgb(76, 76, 76);
+}
