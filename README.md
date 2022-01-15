@@ -1,2 +1,2 @@
-# php_differences_between_two_files
+# Differences between two files
 Algorithm that compares two files and detects the differences.
