@@ -38,10 +38,32 @@ main {
 
 #container_first_file, #container_second_file {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     width: calc(100% / 2 - 100px);
     padding: 0 65px;
     margin: 50px 0 20px;
+}
+
+.preview {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #999;
+    border-radius: 5px;
+}
+
+.number {
+    float: left;
+    width: 40px;
+    line-height: 35px;
+    background: #bbb;
+    text-align: right;
+    padding: 0 5px;
+}
+
+.text {
+    line-height: 35px;
+    padding-left: 50px;
 }
 
 .ms-input-group {
