@@ -30,6 +30,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Differences between two files</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 </head>
@@ -65,9 +66,9 @@
                     if (isset($f2[$key]) == isset($f1[$key]) && $f2[$key] === $f1[$key]) {
                         echo '<div class="number">' . $key . '</div><div class="text">' . $line . '</div>';
                     } else if (isset($f2[$key]) != isset($f1[$key])) {
-                        echo '<div class="number"><span class="text-success">' . $key . '</div><div class="text text-success"> ' . $line . '</div></span>';
+                        echo '<div class="number"><span class="text-success">' . $key . '</div><div class="text text-success"> ' . $line . '<span> <i class="fas fa-plus"></i> </span>' . '</div></span>';
                     } else {
-                        echo '<div class="number"><span class="text-danger">' . $key . '</div><div class="text text-danger"> ' . $line . '</div></span>';
+                        echo '<div class="number"><span class="text-danger">' . $key . '</div><div class="text text-danger"> ' . $line . '<span> <i class="fas fa-minus"></i> </span>' . '</div></span>';
                     }
                 } ?>
                 </div>
