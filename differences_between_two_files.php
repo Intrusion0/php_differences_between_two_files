@@ -16,11 +16,25 @@
 
     $f2 = [];
     while ($line = fgets($textFile2)) {
-        $f2[] = $line;
+
+        if(trim($line) != '') {
+            $f2[] = $line;
+        }
     }
 
     fclose($textFile2);
 
+    function console($value) {
+        echo '<script> console.log(`' . $value . '`); </script>';
+    }
+
+    function printRow($key, $line, $type = null, $icon = null) {
+
+        echo '<div class="number">
+        <span class="text-' . $type . '">' . ++$key . '</div>
+        <div class="text text-' . $type . '"> ' . $line . '
+        <span> <i class="fas fa-' . $icon . '"></i> </span></div></span>';
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +68,7 @@
             <div id="container_first_file">
                 <div class="preview">
                 <?php foreach ($f1 as $key => $line) {
-                    echo '<div class="number">' . $key . '</div><div class="text">' . $line . '</div>';
+                    echo '<div class="number">' . ++$key . '</div><div class="text">' . $line . '</div>';
                 } ?>
                 </div>
             </div>
@@ -62,13 +76,45 @@
             <!-- Container second file -->
             <div id="container_second_file" class="d-block">
                 <div class="preview">
-                <?php foreach ($f2 as $key => $line) {
+
+                <?php $jump = 0; foreach ($f2 as $key => $line) {
+
                     if (isset($f2[$key]) == isset($f1[$key]) && $f2[$key] === $f1[$key]) {
-                        echo '<div class="number">' . $key . '</div><div class="text">' . $line . '</div>';
-                    } else if (isset($f2[$key]) != isset($f1[$key])) {
-                        echo '<div class="number"><span class="text-success">' . $key . '</div><div class="text text-success"> ' . $line . '<span> <i class="fas fa-plus"></i> </span>' . '</div></span>';
-                    } else {
-                        echo '<div class="number"><span class="text-danger">' . $key . '</div><div class="text text-danger"> ' . $line . '<span> <i class="fas fa-minus"></i> </span>' . '</div></span>';
+                        console('Uguali');
+                        printRow($key, $line); continue;
+                    }
+
+                    if (!isset($f1[$key - $jump])) {
+                        console('Aggiunto');
+                        printRow($key, $line, 'success', 'plus'); continue;
+                    }
+
+                    if ($f2[$key - $jump] != $f1[$key - $jump]) {
+                        similar_text($f2[$key - $jump], $f1[$key - $jump], $percent);
+                        console('Simili ' . (int)$percent); 
+                        if ($percent > 50) {
+                            printRow($key, $line, 'warning', 'pencil');
+                            continue;
+                        }
+                        $found = false;
+                        for ($j = $key - $jump; $j < count($f1); $j++) {
+                            console('File 2: ' . $f2[$key]);
+                            console('File 1: ' . $f1[$j]);
+                            console('- - - - - -');
+                            if ($f2[$key] == $f1[$j]) {
+                                console('# # # # #');
+                                $found = true; break;
+                            }
+                        }
+                    
+                        if ($found) {
+                            console('Esiste');
+                            printRow($key, $line);
+                        } else {
+                            $jump++;
+                            console('Non o trova per cui è nuovo');
+                            printRow($key, $line, 'success', 'plus');
+                        }
                     }
                 } ?>
                 </div>
