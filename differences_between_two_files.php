@@ -2,27 +2,38 @@
 
     include "custom-error-handler.php";
 
-    $textFile1 = fopen('test1.txt','r');
+    unlink('file-2.txt');
+    $id = uniqid();
+    $id = 'file-';
 
-    $f1 = [];
-    while ($line = fgets($textFile1)) {
-        $f1[] = $line;
+    if (isset($_POST['submit'])) {
+        $file = $_FILES['fileA'];
+        move_uploaded_file($file['tmp_name'], $id . '1.txt');
+
+        $file = $_FILES['fileB'];
+        move_uploaded_file($file['tmp_name'], $id . '2.txt');
     }
 
-    fclose($textFile1);
+    $f1 = read($id . '1.txt');
+    $f2 = read($id . '2.txt');
 
-    
-    $textFile2 = fopen('test2.txt','r');
+    function read($file) {
 
-    $f2 = [];
-    while ($line = fgets($textFile2)) {
-
-        if(trim($line) != '') {
-            $f2[] = $line;
+        if (!is_file($file)) {
+            return [];
         }
-    }
 
-    fclose($textFile2);
+        $textFile = fopen($file, 'r');
+
+        $rows = [];
+        while ($line = fgets($textFile)) {
+            $rows[] = $line;
+        }
+
+        fclose($textFile);
+
+        return $rows;
+    }
 
     function console($value) {
         echo '<script> console.log(`' . $value . '`); </script>';
@@ -59,18 +70,26 @@
     </header>
 
     <!-- Main -->
-    <main>    
+    <main>
+        <form method="post" enctype="multipart/form-data">
         <!-- Custom container -->
         <div class="ms-container">
             <h2>Difference between two text files</h2>
 
             <!-- Container first file -->
-            <div id="container_first_file">
+            <div id="container_first_file" class="d-block">
                 <div class="preview">
                 <?php foreach ($f1 as $key => $line) {
                     echo '<div class="number">' . ++$key . '</div><div class="text">' . $line . '</div>';
                 } ?>
                 </div>
+
+                <div class="mt-3">
+                    <div class="ms-input-group input-group">
+                        <input type="file" class="form-control" name="fileA">
+                    </div>
+                </div>
+                
             </div>
             
             <!-- Container second file -->
@@ -80,27 +99,31 @@
                 <?php $jump = 0; foreach ($f2 as $key => $line) {
 
                     if (isset($f2[$key]) == isset($f1[$key]) && $f2[$key] === $f1[$key]) {
-                        console('Uguali');
+                        // console('Uguali');
                         printRow($key, $line); continue;
                     }
 
                     if (!isset($f1[$key - $jump])) {
-                        console('Aggiunto');
+                        // console('Aggiunto');
                         printRow($key, $line, 'success', 'plus'); continue;
                     }
 
+                    if (!in_array($f1[$key - $jump], $f2)) {
+                        console('Eliminato ' . $f1[$key - $jump]); 
+                    }
+                    
                     if ($f2[$key - $jump] != $f1[$key - $jump]) {
                         similar_text($f2[$key - $jump], $f1[$key - $jump], $percent);
                         console('Simili ' . (int)$percent); 
                         if ($percent > 50) {
-                            printRow($key, $line, 'warning', 'pencil');
+                            printRow($key, $line, 'warning', 'pencil-alt');
                             continue;
                         }
                         $found = false;
                         for ($j = $key - $jump; $j < count($f1); $j++) {
-                            console('File 2: ' . $f2[$key]);
-                            console('File 1: ' . $f1[$j]);
-                            console('- - - - - -');
+                            // console('File 2: ' . $f2[$key]);
+                            // console('File 1: ' . $f1[$j]);
+                            // console('- - - - - -');
                             if ($f2[$key] == $f1[$j]) {
                                 console('# # # # #');
                                 $found = true; break;
@@ -108,18 +131,28 @@
                         }
                     
                         if ($found) {
-                            console('Esiste');
+                            // console('Esiste');
                             printRow($key, $line);
                         } else {
                             $jump++;
-                            console('Non o trova per cui è nuovo');
+                            // console('Non lo trova per cui è nuovo');
                             printRow($key, $line, 'success', 'plus');
                         }
                     }
                 } ?>
                 </div>
+
+                <div class="mt-3">
+                    <div class="ms-input-group input-group">
+                        <input type="file" class="form-control" name="fileB">
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="w-100 text-center m-auto" >
+            <button type="submit" name="submit">Invia</button>
+        </div>
+        </form>
     </main>
 
     <!-- Footer -->

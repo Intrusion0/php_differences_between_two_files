@@ -19,7 +19,8 @@ h2 {
     color: #323232;
 }
 
-i.fas.fa-plus, i.fas.fa-minus {
+/* Style icon */
+i.fas.fa-plus, i.fas.fa-minus, i.fas.fa-pencil-alt {
     float: right;
     line-height: 35px;
 }
@@ -30,7 +31,8 @@ header {
     width: 100%;
     /* debug */
     height: 100px;
-    background-color: red;
+    /* background-color: red; */
+    border-bottom: 1px solid;
 }
 
 /* Main */
@@ -42,7 +44,6 @@ main {
 }
 
 #container_first_file, #container_second_file {
-    display: flex;
     justify-content: center;
     flex-wrap: wrap;
     width: calc(100% / 2 - 100px);
@@ -51,11 +52,28 @@ main {
 }
 
 .preview {
+    min-height: 350px;
+    max-height: 350px;
+    overflow: auto;
     width: 100%;
     padding: 10px;
-    border-radius: 5px;
+    border-radius: 5px 0 0 5px;
     background: #3a3a3a;
-    box-shadow: -3px 3px 10px 1px #000;
+    box-shadow: -1px 1px 8px 1px #000;
+}
+
+.preview::-webkit-scrollbar {
+    width: 5px;
+}
+
+.preview::-webkit-scrollbar-track {
+    background-color: #3a3a3a;
+    border-radius: 5px;
+}
+
+.preview::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #000;
 }
 
 .number {
